@@ -1,0 +1,27 @@
+
+#start zookeeper server
+.\zookeeper-server-start.bat ..\..\config\zookeeper.properties
+
+#start kafka server
+.\kafka-server-start.bat ..\..\config\server.properties
+
+#create topics
+.\kafka-topics.bat --create --topic mytopic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
+
+.\kafka-topics.bat --bootstrap-server localhost:9092 --list
+
+.\kafka-topics.bat --bootstrap-server localhost:9092 --describe --topic mytopic
+
+#Producer
+.\kafka-console-producer.bat --bootstrap-server localhost:9092 --topic mytopic
+
+#Consumer
+.\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic mytopic
+.\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic mytopic --from-beginning
+.\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic mytopic --group {groupId}
+
+.\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --list
+
+.\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --describe --group {groupId}
+
+C:\Users\USER\OneDrive\Documents\my doc\kafka_configuration.txt
