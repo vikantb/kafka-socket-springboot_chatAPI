@@ -8,11 +8,12 @@ import chatAPI from './services/chatapi';
 import { randomColor } from './utils/common';
 
 
-const SOCKET_URL = 'http://localhost:8081/ws-chat/';
+const SOCKET_URL = 'http://localhost:8081/chat/';
 
 const App = () => {
   const [messages, setMessages] = useState([])
   const [user, setUser] = useState(null)
+  const [client, setClient] = useState(null)
 
   let onConnected = () => {
     console.log("Connected!!")
@@ -24,16 +25,12 @@ const App = () => {
   }
 
   let onSendMessage = (msgText) => {
-    chatAPI.sendMessage(user.username, msgText).then(res => {
-      console.log('Sent', res);
-    }).catch(err => {
-      console.log('Error Occured while sending message to api');
-    })
+      client.sendMessage('/app/send', 
+      JSON.stringify({'sender': user.username, 'content': msgText}));
   }
 
   let handleLoginSubmit = (username) => {
     console.log(username, " Logged in..");
-
     setUser({
       username: username,
       color: randomColor()
@@ -52,6 +49,7 @@ const App = () => {
               onConnect={onConnected}
               onDisconnect={console.log("Disconnected!")}
               onMessage={msg => onMessageReceived(msg)}
+              ref={client => setClient(client)}
               debug={false}
             />
             <Messages

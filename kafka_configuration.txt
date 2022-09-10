@@ -6,19 +6,19 @@
 .\kafka-server-start.bat ..\..\config\server.properties
 
 #create topics
-.\kafka-topics.bat --create --topic mytopic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
+.\kafka-topics.bat --create --topic chat-topic --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
 
 .\kafka-topics.bat --bootstrap-server localhost:9092 --list
 
-.\kafka-topics.bat --bootstrap-server localhost:9092 --describe --topic mytopic
+.\kafka-topics.bat --bootstrap-server localhost:9092 --describe --topic chat-topic
 
 #Producer
-.\kafka-console-producer.bat --bootstrap-server localhost:9092 --topic mytopic
+.\kafka-console-producer.bat --bootstrap-server localhost:9092 --topic chat-topic
 
 #Consumer
 .\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic mytopic
 .\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic mytopic --from-beginning
-.\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic mytopic --group {groupId}
+.\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic chat-topic --group {groupId}
 
 .\kafka-consumer-groups.bat --bootstrap-server localhost:9092 --list
 

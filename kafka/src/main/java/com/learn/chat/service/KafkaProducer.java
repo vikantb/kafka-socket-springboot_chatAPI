@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import com.learn.chat.model.Message;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.learn.chat.model.MessageModel;
 
 @Service
 public class KafkaProducer {
@@ -17,12 +20,17 @@ public class KafkaProducer {
 //	private KafkaTemplate<String, String> kafkaTemplate;
 	
 	@Autowired
-	private KafkaTemplate<String, Message> kafkaTemplate;
+	Gson gson;
 	
-	static final String topic = "multinodetopic";
+	@Autowired
+	private KafkaTemplate<String, String> kafkaTemplate;
 	
-	public void sendMessage(Message message) {
-	   kafkaTemplate.send(topic, message);
+	static final String topic = "chat-topic";
+	
+	public void sendMessage(MessageModel message) {
+		String jsonInString;
+		jsonInString = gson.toJson(message);
+		kafkaTemplate.send(topic, jsonInString);
 	} 
 	
 	boolean flag = false;
@@ -40,11 +48,13 @@ public class KafkaProducer {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				Message message = new Message();
+				MessageModel message = new MessageModel();
 				message.setSender(String.valueOf(random.nextInt()));
 				message.setContent(String.valueOf(random.nextInt()));
 				message.setTimestamp(LocalDateTime.now().toString());
-				kafkaTemplate.send(topic, message);
+				String jsonInString;
+				jsonInString = gson.toJson(message);
+				kafkaTemplate.send(topic, jsonInString);
 			}
 		});
 	} 

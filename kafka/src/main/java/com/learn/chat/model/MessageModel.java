@@ -1,11 +1,11 @@
 package com.learn.chat.model;
 
-public class Message {
+public class MessageModel {
 	private String sender;
 	private String content;
 	private String timestamp;
 	
-    public Message() {
+    public MessageModel() {
     }
 
     public String getTimestamp() {
@@ -24,7 +24,7 @@ public class Message {
         this.sender = sender;
     }
 
-    public Message(String sender, String content) {
+    public MessageModel(String sender, String content) {
         this.sender = sender;
         this.content = content;
     }
